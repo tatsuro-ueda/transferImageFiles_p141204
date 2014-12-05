@@ -1,0 +1,17 @@
+{
+  "name": "transferImageFiles_p141204",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tatsuro Ueda",
+  "license": "ISC",
+  "dependencies": {
+    "expect.js": "^0.3.1",
+    "gapidts": "^0.1.6",
+    "googleapis": "^1.0.21",
+    "mocha": "^2.0.1"
+  }
+}
