@@ -12,6 +12,7 @@
     "expect.js": "^0.3.1",
     "gapidts": "^0.1.6",
     "googleapis": "^1.0.21",
-    "mocha": "^2.0.1"
+    "mocha": "^2.0.1",
+    "typescript": "^1.3.0"
   }
 }

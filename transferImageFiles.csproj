@@ -23,13 +23,17 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="ParserOfExportedFile.test.ts" />
+    <TypeScriptCompile Include="Scripts\typings\string-line.d.ts" />
+    <TypeScriptCompile Include="StringLine.ts" />
     <TypeScriptCompile Include="media_upload.ts" />
+    <TypeScriptCompile Include="ParserOfExportedFile.ts" />
     <TypeScriptCompile Include="Scripts\typings\expect.js\expect.js.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\google-drive\drive-v2-nodejs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\google-drive\googleapis-nodejs-common.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\mocha\mocha.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
+    <TypeScriptCompile Include="test\StringLine.test.ts" />
+    <TypeScriptCompile Include="test\ParserOfExportedFile.test.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -15,6 +15,5 @@ export class ParserOfExportedFile {
             input: rs,
             output: ws
         });
-
     }
-} 
+}
