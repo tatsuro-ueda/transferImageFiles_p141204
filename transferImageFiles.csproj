@@ -26,7 +26,6 @@
     <TypeScriptCompile Include="FileUploader.ts" />
     <TypeScriptCompile Include="Scripts\typings\string-line.d.ts" />
     <TypeScriptCompile Include="StringLine.ts" />
-    <TypeScriptCompile Include="media_upload.ts" />
     <TypeScriptCompile Include="ParserOfExportedFile.ts" />
     <TypeScriptCompile Include="Scripts\typings\expect.js\expect.js.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\google-drive\drive-v2-nodejs.d.ts" />

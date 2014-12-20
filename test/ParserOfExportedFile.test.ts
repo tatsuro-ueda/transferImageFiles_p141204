@@ -8,7 +8,7 @@ var parserOfExportedFile = require('../ParserOfExportedFile.js');
 var efp;
 
 describe('ParserOfExportedFile', () => {
-    before(() => {
+    beforeEach(() => {
         efp = new parserOfExportedFile.ParserOfExportedFile('sample.html');
     });
 

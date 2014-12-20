@@ -19,8 +19,13 @@ export class StringLine {
     }
     
     findImageTag = () => {
-        var reTag = new RegExp(
-            '^(.*)(<\s?img .*? src\s?=\s?"http://weed\.cocolog-nifty\.com/.*?\.(jpg|png|gif)" .*? /\s?>)(.*)$');
+        //var reTag = /^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$/;
+        var reTag = new RegExp('^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$');
+
+        //var reTag = new RegExp(
+        //    //'^(.*)(<\s?img .*? src\s?=\s?"http://weed\.cocolog-nifty\.com/.*?\.(jpg|png|gif)" .*? /\s?>)(.*)$');
+        //    "^(.*?)(< img .*? / >)(.*)$"
+        //    );
 
         if (this.lineBefore.match(reTag) != null) {
             this.lineAfter     += this.lineBefore.replace(reTag, '$1');
@@ -30,8 +35,11 @@ export class StringLine {
     }
 
     findImageAddress = () => {
-        var reAddress = new RegExp('<\s?img .*src="(http://.*\.(jpg|png|gif))" .* />');
-        this.imageAddressBefore = this.imageTagBefore.replace(reAddress, '$1');
+        var reAddress = /.*?(http:\/\/.*?\.(jpg|png|gif)).*/;
+        //var reAddress = /<\s?img .*\s?src\s?=\s?"(http:\/\/.*\.(jpg|png|gif))" .* \/\s?>/;
+        if (this.imageTagBefore.match(reAddress) != null) {
+            this.imageAddressBefore = this.imageTagBefore.replace(reAddress, '$1');
+        }
     }
 
     //replaceImageTag = () => {
