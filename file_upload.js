@@ -28,27 +28,28 @@ var CLIENT_SECRET = 'TXTQL26dHArlc8yUlIHV_JQF';
 var REDIRECT_URL = 'http://localhost';
 var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 oauth2Client.setCredentials({
-    access_token: 'ya29.4ABeFwJQhIPbq3GRR3Df9Z6bxfKkNT0XF8Avb3sbxmTn5zSsvr2wEGdiVBIRo0vJRjAUzPDXTHRLhg',
-    refresh_token: '1/xuO_32eCGzCN0zf_sxMBDxUmmmw2EaxwOKrfd_9JH1MMEudVrK5jSpoR30zcRFq6'
+    access_token: 'ya29.5ABAMEFVbyCKmvotm2pZNNJEC5_IuOQVPkFXMnjiHfCWxl3lPx3MvkiDEJbsRjwGRgl9gcNrK4GneQ',
+    refresh_token: '1/WrlVKnsBXCgCpIbIqYJtJTb3bJ-QOelFAI-ZnWgMiO8MEudVrK5jSpoR30zcRFq6'
 });
-//oauth2Client.refreshAccessToken(function (err, res) {
-//if (err != null) {
-//    console.log('error: ', err);
-//};
-// insertion example
-drive.files.insert({
-    resource: {
-        title: 'hoge3.jpg',
-        mimeType: 'image/jpeg',
-        parents: [
-            {
-                id: '0B1za9Zlbo6NiSGlBS0QyTmVULUE'
-            }
-        ],
-        body: file
-    },
-    auth: oauth2Client
-}, function (err, response) {
-    console.log('error:', err, 'inserted:', response);
+oauth2Client.refreshAccessToken(function (err, res) {
+    //if (err != null) {
+    //    console.log('error: ', err);
+    //};
+    // insertion example
+    drive.files.insert({
+        resource: {
+            title: 'hoge3.jpg',
+            mimeType: 'image/jpeg',
+            parents: [
+                {
+                    id: '0B1za9Zlbo6NiSGlBS0QyTmVULUE'
+                }
+            ],
+            body: file
+        },
+        auth: oauth2Client
+    }, function (err, response) {
+        console.log('error:', err, 'inserted:', response);
+    });
 });
 //# sourceMappingURL=file_upload.js.map

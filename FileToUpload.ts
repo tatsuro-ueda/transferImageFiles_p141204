@@ -1,16 +1,38 @@
-﻿import google = require('googleapis');
+﻿'use strict';
+
+import google = require('googleapis');
 import fs = require('fs');
 import path = require('path');
+import http = require('http');
 
-export class FileUploader {
-    filePath: string;
-     
-    constructor(filePath) {
-        //this.filePath = path.resolve(__dirname, filePath);
-        this.filePath = filePath;
+export class FileToUpload {
+    fileName;
+         
+    constructor(url: string, callback) {
+        var fileName = url;
+        var rePath = /https?:\/\/weed.cocolog-nifty.com\/(.*)/;
+        fileName = fileName.replace(rePath, '$1');
+        fileName = fileName.replace(/\//g, '-');
+        console.log(fileName);
+        this.fileName = fileName;
+
+        var file = fs.createWriteStream(__dirname + '/' + fileName);
+        var request = http.get(url, (response) => {
+            response.pipe(file);
+            file.on('finish', () => {
+                file.close(() => {  // close() is async
+                    console.log('File download is done');
+                    callback(null, this); // for async module
+                });
+            });
+            file.on('error', (err) => { // Handle errors
+                fs.unlink(fileName); // Delete the file async. (But we don't check the result)
+                console.log('hoge: ', err);
+            });
+        });
     }
 
-    upload = () => {
+    uploadToGoogleDrive = (callback) => {
         /**
         * Copyright 2013 Google Inc. All Rights Reserved.
         *
@@ -27,8 +49,8 @@ export class FileUploader {
         * limitations under the License.
         */
 
-        //var file = fs.readFileSync(this.filePath);
-        var file = fs.readFileSync('hoge.jpg');
+        //var file = fs.readFileSync('wzero3es-images-scrn0000_1.jpg');
+        var file = fs.readFileSync(__dirname + '/' + this.fileName);
 
         var drive = google.drive('v2');
         var OAuth2Client = google.auth.OAuth2;
@@ -42,35 +64,39 @@ export class FileUploader {
         var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 
         oauth2Client.setCredentials({
-            access_token: 'ya29.4ABeFwJQhIPbq3GRR3Df9Z6bxfKkNT0XF8Avb3sbxmTn5zSsvr2wEGdiVBIRo0vJRjAUzPDXTHRLhg',
-            refresh_token: '1/xuO_32eCGzCN0zf_sxMBDxUmmmw2EaxwOKrfd_9JH1MMEudVrK5jSpoR30zcRFq6'
+            access_token: 'ya29.5ABAMEFVbyCKmvotm2pZNNJEC5_IuOQVPkFXMnjiHfCWxl3lPx3MvkiDEJbsRjwGRgl9gcNrK4GneQ',
+            refresh_token: '1/WrlVKnsBXCgCpIbIqYJtJTb3bJ-QOelFAI-ZnWgMiO8MEudVrK5jSpoR30zcRFq6'
         });
-
-        //oauth2Client.refreshAccessToken(function (err, res) {
+        
+        oauth2Client.refreshAccessToken((err, res) => {
 
             //if (err != null) {
             //    console.log('error: ', err);
             //};
-
+            
             // insertion example
             drive.files.insert(
                 {
                     resource: {
-                        title: 'hoge3.jpg',
-                        mimeType: 'image/jpeg',
+                        title: this.fileName,
                         parents: [
                             {
                                 id: '0B1za9Zlbo6NiSGlBS0QyTmVULUE'
                             }
-                        ],
+                        ]
+                    },
+                    media: {
+                        mimeType: 'image/jpeg',
                         body: file
                     },
                     auth: oauth2Client
                 },
                 function (err, response) {
-                    console.log('error:', err, 'inserted:', response);
+                    //console.log('error:', err, 'inserted:', response);
+                    callback(null, response.id);
                 }
             );
-        //});
+        });
+        return 'failed to insert';
     }
 }

@@ -6,6 +6,7 @@
 
 var expect = require('expect.js');
 var stringLine = require('../StringLine.js');
+var fileUploader = require('../FileUploader.js');
 
 var sl;
 
@@ -37,12 +38,14 @@ describe('StringLine', () => {
               '<img title="Scrn0000_1" height="320" alt="Scrn0000_1" '
             + 'src="http://weed.cocolog-nifty.com/wzero3es/images/scrn0000_1.jpg" width="240" border="0" />';
         expect(sl.imageTagBefore).to.be(expectedString);
+
         var expectedLineBefore =
               'geho< img title = "Scrn0001" height = "320" alt = "Scrn0001" '
             + 'src = "http://weed.cocolog-nifty.com/wzero3es/images/scrn0001.jpg" width = "240" border ="0" / >'
             + 'gohu< img title = "Scrn0002" height = "320" alt = "Scrn0002" '
             + 'src = "http://weed.cocolog-nifty.com/wzero3es/images/scrn0002.jpg" width = "240" border ="0" / >gyoe';
         expect(sl.lineBefore).to.be(expectedLineBefore);
+
         sl.findImageTag();
         var expectedString2 =
               '< img title = "Scrn0001" height = "320" alt = "Scrn0001" '
@@ -56,4 +59,10 @@ describe('StringLine', () => {
         sl.findImageAddress();
         expect(sl.imageAddressBefore).to.be(expectedAddress);
     });
+
+    it('画像のアドレスから画像をダウンロードする', () => {
+        sl.findImageTag();
+        sl.findImageAddress();
+        var fu = new fileUploader.FileUploader(sl.imageAddressBefore);
+    })
 });

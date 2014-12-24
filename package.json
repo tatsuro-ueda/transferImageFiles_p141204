@@ -4,11 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/*.test.js"
   },
   "author": "Tatsuro Ueda",
   "license": "ISC",
   "dependencies": {
+    "async": "^0.9.0",
     "expect.js": "^0.3.1",
     "gapidts": "^0.1.6",
     "googleapis": "^1.0.21",

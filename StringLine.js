@@ -5,12 +5,8 @@ var StringLine = (function () {
         // 画像アドレス変換後の文字列行
         this.lineAfter = '';
         this.findImageTag = function () {
-            //var reTag = /^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$/;
-            var reTag = new RegExp('^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$');
-            //var reTag = new RegExp(
-            //    //'^(.*)(<\s?img .*? src\s?=\s?"http://weed\.cocolog-nifty\.com/.*?\.(jpg|png|gif)" .*? /\s?>)(.*)$');
-            //    "^(.*?)(< img .*? / >)(.*)$"
-            //    );
+            var reTag = /^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$/;
+            //var reTag = new RegExp('^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$');
             if (_this.lineBefore.match(reTag) != null) {
                 _this.lineAfter += _this.lineBefore.replace(reTag, '$1');
                 _this.imageTagBefore = _this.lineBefore.replace(reTag, '$2');

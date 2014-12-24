@@ -1,7 +1,11 @@
-var google = require('googleapis');
+﻿var google = require('googleapis');
 var fs = require('fs');
+
+var http = require('http');
+
 var FileUploader = (function () {
-    function FileUploader(filePath) {
+    function FileUploader(url) {
+        var _this = this;
         this.upload = function () {
             /**
             * Copyright 2013 Google Inc. All Rights Reserved.
@@ -18,44 +22,70 @@ var FileUploader = (function () {
             * See the License for the specific language governing permissions and
             * limitations under the License.
             */
-            //var file = fs.readFileSync(this.filePath);
-            var file = fs.readFileSync('hoge.jpg');
+            var file = fs.readFileSync('wzero3es-images-scrn0000_1.jpg');
+
+            //var file = fs.readFileSync(__dirname + '/' + this.fileName);
             var drive = google.drive('v2');
             var OAuth2Client = google.auth.OAuth2;
+
             // Client ID and client secret are available at
             // https://code.google.com/apis/console
             var CLIENT_ID = '618246363748-83p3k6gcirrp96mg819lsg22sk0nkjoq.apps.googleusercontent.com';
             var CLIENT_SECRET = 'TXTQL26dHArlc8yUlIHV_JQF';
             var REDIRECT_URL = 'http://localhost';
+
             var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
+
             oauth2Client.setCredentials({
-                access_token: 'ya29.4ABeFwJQhIPbq3GRR3Df9Z6bxfKkNT0XF8Avb3sbxmTn5zSsvr2wEGdiVBIRo0vJRjAUzPDXTHRLhg',
-                refresh_token: '1/xuO_32eCGzCN0zf_sxMBDxUmmmw2EaxwOKrfd_9JH1MMEudVrK5jSpoR30zcRFq6'
+                access_token: 'ya29.5ABAMEFVbyCKmvotm2pZNNJEC5_IuOQVPkFXMnjiHfCWxl3lPx3MvkiDEJbsRjwGRgl9gcNrK4GneQ',
+                refresh_token: '1/WrlVKnsBXCgCpIbIqYJtJTb3bJ-QOelFAI-ZnWgMiO8MEudVrK5jSpoR30zcRFq6'
             });
-            //oauth2Client.refreshAccessToken(function (err, res) {
-            //if (err != null) {
-            //    console.log('error: ', err);
-            //};
-            // insertion example
-            drive.files.insert({
-                resource: {
-                    title: 'hoge3.jpg',
-                    mimeType: 'image/jpeg',
-                    parents: [
-                        {
-                            id: '0B1za9Zlbo6NiSGlBS0QyTmVULUE'
-                        }
-                    ],
-                    body: file
-                },
-                auth: oauth2Client
-            }, function (err, response) {
-                console.log('error:', err, 'inserted:', response);
+
+            oauth2Client.refreshAccessToken(function (err, res) {
+                //if (err != null) {
+                //    console.log('error: ', err);
+                //};
+                // insertion example
+                drive.files.insert({
+                    resource: {
+                        title: 'hoge4.jpg',
+                        parents: [
+                            {
+                                id: '0B1za9Zlbo6NiSGlBS0QyTmVULUE'
+                            }
+                        ]
+                    },
+                    media: {
+                        mimeType: 'image/jpeg',
+                        body: file
+                    },
+                    auth: oauth2Client
+                }, function (err, response) {
+                    console.log('error:', err, 'inserted:', response);
+                });
             });
-            //});
         };
-        //this.filePath = path.resolve(__dirname, filePath);
-        this.filePath = filePath;
+        var dest = url;
+        var rePath = /http:\/\/weed.cocolog-nifty.com\/(.*)/;
+        dest = dest.replace(rePath, '$1');
+        dest = dest.replace(/\//g, '-');
+        console.log(dest);
+        this.fileName = dest;
+
+        var file = fs.createWriteStream(__dirname + '/' + dest);
+        var request = http.get(url, function (response) {
+            response.pipe(file);
+            file.on('finish', function () {
+                file.close(function () {
+                    console.log('done');
+                    callback(null, _this);
+                });
+            });
+            file.on('error', function (err) {
+                fs.unlink(dest); // Delete the file async. (But we don't check the result)
+                console.log('error:', err);
+            });
+        });
     }
     return FileUploader;
 })();

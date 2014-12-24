@@ -19,13 +19,8 @@ export class StringLine {
     }
     
     findImageTag = () => {
-        //var reTag = /^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$/;
-        var reTag = new RegExp('^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$');
-
-        //var reTag = new RegExp(
-        //    //'^(.*)(<\s?img .*? src\s?=\s?"http://weed\.cocolog-nifty\.com/.*?\.(jpg|png|gif)" .*? /\s?>)(.*)$');
-        //    "^(.*?)(< img .*? / >)(.*)$"
-        //    );
+        var reTag = /^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$/;
+        //var reTag = new RegExp('^(.*?)(<\s?img .*? src\s?=\s?"http:\/\/weed\.cocolog-nifty\.com\/.*?\.(jpg|png|gif)" .*? \/\s?>)(.*)$');
 
         if (this.lineBefore.match(reTag) != null) {
             this.lineAfter     += this.lineBefore.replace(reTag, '$1');

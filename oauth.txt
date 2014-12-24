@@ -1,0 +1,8 @@
+https://accounts.google.com/o/oauth2/auth
+?client_id=618246363748-83p3k6gcirrp96mg819lsg22sk0nkjoq.apps.googleusercontent.com
+&redirect_uri=http://localhost
+&scope=https://www.googleapis.com/auth/drive
+&response_type=code
+
+curl -d client_id=618246363748-83p3k6gcirrp96mg819lsg22sk0nkjoq.apps.googleusercontent.com -d client_secret=TXTQL26dHArlc8yUlIHV_JQF -d redirect_uri=http://localhost -d grant_type=authorization_code -d code=4/9bRnr6YA4GLjbLslUzWWghuulhVndRiR-xsmwv0H01A.8i2abTduuxcSBrG_bnfDxpI8uY3glAI https://accounts.google.com/o/oauth2/token
+
