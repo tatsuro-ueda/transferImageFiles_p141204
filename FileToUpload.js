@@ -3,9 +3,9 @@ var google = require('googleapis');
 var fs = require('fs');
 var http = require('http');
 var FileToUpload = (function () {
-    function FileToUpload(url, callback) {
+    function FileToUpload(url, callback, done) {
         var _this = this;
-        this.uploadToGoogleDrive = function (callback) {
+        this.uploadToGoogleDrive = function (callback, done) {
             /**
             * Copyright 2013 Google Inc. All Rights Reserved.
             *
@@ -57,6 +57,7 @@ var FileToUpload = (function () {
                 }, function (err, response) {
                     //console.log('error:', err, 'inserted:', response);
                     callback(null, response.id);
+                    done();
                 });
             });
             return 'failed to insert';
@@ -65,15 +66,15 @@ var FileToUpload = (function () {
         var rePath = /https?:\/\/weed.cocolog-nifty.com\/(.*)/;
         fileName = fileName.replace(rePath, '$1');
         fileName = fileName.replace(/\//g, '-');
-        console.log(fileName);
         this.fileName = fileName;
         var file = fs.createWriteStream(__dirname + '/' + fileName);
         var request = http.get(url, function (response) {
             response.pipe(file);
             file.on('finish', function () {
                 file.close(function () {
-                    console.log('File download is done');
+                    console.log('File download is done\n');
                     callback(null, _this); // for async module
+                    done(); // for mocha async testing
                 });
             });
             file.on('error', function (err) {

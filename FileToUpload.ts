@@ -8,12 +8,11 @@ import http = require('http');
 export class FileToUpload {
     fileName;
          
-    constructor(url: string, callback) {
+    constructor(url: string, callback, done) {
         var fileName = url;
         var rePath = /https?:\/\/weed.cocolog-nifty.com\/(.*)/;
         fileName = fileName.replace(rePath, '$1');
         fileName = fileName.replace(/\//g, '-');
-        console.log(fileName);
         this.fileName = fileName;
 
         var file = fs.createWriteStream(__dirname + '/' + fileName);
@@ -21,8 +20,9 @@ export class FileToUpload {
             response.pipe(file);
             file.on('finish', () => {
                 file.close(() => {  // close() is async
-                    console.log('File download is done');
+                    console.log('File download is done\n');
                     callback(null, this); // for async module
+                    done(); // for mocha async testing
                 });
             });
             file.on('error', (err) => { // Handle errors
@@ -32,7 +32,7 @@ export class FileToUpload {
         });
     }
 
-    uploadToGoogleDrive = (callback) => {
+    uploadToGoogleDrive = (callback, done) => {
         /**
         * Copyright 2013 Google Inc. All Rights Reserved.
         *
@@ -94,6 +94,7 @@ export class FileToUpload {
                 function (err, response) {
                     //console.log('error:', err, 'inserted:', response);
                     callback(null, response.id);
+                    done();
                 }
             );
         });

@@ -23,7 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="FileUploader.ts" />
+    <TypeScriptCompile Include="FileToUpload.ts" />
     <TypeScriptCompile Include="Scripts\typings\string-line.d.ts" />
     <TypeScriptCompile Include="StringLine.ts" />
     <TypeScriptCompile Include="ParserOfExportedFile.ts" />
