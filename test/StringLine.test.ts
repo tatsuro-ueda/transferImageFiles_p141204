@@ -10,7 +10,7 @@
 
 var expect = require('expect.js');
 var stringLine = require('../StringLine.js');
-var fileUploader = require('../FileUploader.js');
+var fileToUpload = require('../FileToUpload.js');
 
 var sl;
 
@@ -64,9 +64,10 @@ describe('StringLine', () => {
         expect(sl.imageAddressBefore).to.be(expectedAddress);
     });
 
-    it('画像のアドレスから画像をダウンロードする', () => {
+    it('画像のアドレスから画像をダウンロードする', (done) => {
         sl.findImageTag();
         sl.findImageAddress();
-        var fu = new fileUploader.FileUploader(sl.imageAddressBefore);
+        var callback = () => {};
+        var fu = new fileToUpload.FileToUpload(sl.imageAddressBefore, callback, done);
     })
 });

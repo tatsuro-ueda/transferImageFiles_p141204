@@ -7,7 +7,7 @@
 'use strict';
 var expect = require('expect.js');
 var stringLine = require('../StringLine.js');
-var fileUploader = require('../FileUploader.js');
+var fileToUpload = require('../FileToUpload.js');
 var sl;
 describe('StringLine', function () {
     beforeEach(function () {
@@ -34,10 +34,12 @@ describe('StringLine', function () {
         sl.findImageAddress();
         expect(sl.imageAddressBefore).to.be(expectedAddress);
     });
-    it('画像のアドレスから画像をダウンロードする', function () {
+    it('画像のアドレスから画像をダウンロードする', function (done) {
         sl.findImageTag();
         sl.findImageAddress();
-        var fu = new fileUploader.FileUploader(sl.imageAddressBefore);
+        var callback = function () {
+        };
+        var fu = new fileToUpload.FileToUpload(sl.imageAddressBefore, callback, done);
     });
 });
 //# sourceMappingURL=StringLine.test.js.map

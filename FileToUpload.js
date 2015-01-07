@@ -1,7 +1,9 @@
-'use strict';
+﻿'use strict';
 var google = require('googleapis');
 var fs = require('fs');
+
 var http = require('http');
+
 var FileToUpload = (function () {
     function FileToUpload(url, callback, done) {
         var _this = this;
@@ -23,18 +25,23 @@ var FileToUpload = (function () {
             */
             //var file = fs.readFileSync('wzero3es-images-scrn0000_1.jpg');
             var file = fs.readFileSync(__dirname + '/' + _this.fileName);
+
             var drive = google.drive('v2');
             var OAuth2Client = google.auth.OAuth2;
+
             // Client ID and client secret are available at
             // https://code.google.com/apis/console
             var CLIENT_ID = '618246363748-83p3k6gcirrp96mg819lsg22sk0nkjoq.apps.googleusercontent.com';
             var CLIENT_SECRET = 'TXTQL26dHArlc8yUlIHV_JQF';
             var REDIRECT_URL = 'http://localhost';
+
             var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
+
             oauth2Client.setCredentials({
                 access_token: 'ya29.5ABAMEFVbyCKmvotm2pZNNJEC5_IuOQVPkFXMnjiHfCWxl3lPx3MvkiDEJbsRjwGRgl9gcNrK4GneQ',
                 refresh_token: '1/WrlVKnsBXCgCpIbIqYJtJTb3bJ-QOelFAI-ZnWgMiO8MEudVrK5jSpoR30zcRFq6'
             });
+
             oauth2Client.refreshAccessToken(function (err, res) {
                 //if (err != null) {
                 //    console.log('error: ', err);
@@ -55,9 +62,14 @@ var FileToUpload = (function () {
                     },
                     auth: oauth2Client
                 }, function (err, response) {
-                    //console.log('error:', err, 'inserted:', response);
-                    callback(null, response.id);
-                    done();
+                    //console.log(response);
+                    _this.newUrl = response.webContentLink;
+                    _this.newUrl = _this.newUrl.replace('&export=download', '');
+                    callback(null, _this); // for async module
+                    if (done != null) {
+                        done(); // for mocha async testing
+                    }
+                    return _this.newUrl;
                 });
             });
             return 'failed to insert';
@@ -67,6 +79,7 @@ var FileToUpload = (function () {
         fileName = fileName.replace(rePath, '$1');
         fileName = fileName.replace(/\//g, '-');
         this.fileName = fileName;
+
         var file = fs.createWriteStream(__dirname + '/' + fileName);
         var request = http.get(url, function (response) {
             response.pipe(file);
@@ -74,7 +87,9 @@ var FileToUpload = (function () {
                 file.close(function () {
                     console.log('File download is done\n');
                     callback(null, _this); // for async module
-                    done(); // for mocha async testing
+                    if (done != null) {
+                        done(); // for mocha async testing
+                    }
                 });
             });
             file.on('error', function (err) {

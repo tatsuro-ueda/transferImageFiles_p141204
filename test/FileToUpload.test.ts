@@ -9,24 +9,29 @@
 'use strict';
 
 var expect = require('expect.js');
+var async = require('async');
 var fileToUpload = require('../FileToUpload.js');
 
-var fu;
+var ftu;
 
 describe('FileToUpload', () => {
     beforeEach((done) => {
         var callback = () => {};
-        fu = new fileToUpload.FileToUpload('http://weed.cocolog-nifty.com/wzero3es/images/scrn0001.jpg', callback, done);
+        ftu = new fileToUpload.FileToUpload('http://weed.cocolog-nifty.com/wzero3es/images/scrn0001.jpg', callback, done);
     });
 
     it('インスタンス化することができる', () => {
-        expect(fu).not.to.be(undefined);
+        expect(ftu).not.to.be(undefined);
     });
 
     it('ファイルをアップロードすることができる', (done) => {
-        var callback = (arg, id) => {
-            console.log(id, '\n');
-        };
-        expect(fu.uploadToGoogleDrive(callback, done)).to.be.a('string');
+        var callback = () => {};
+        expect(ftu.uploadToGoogleDrive(callback, done)).to.be.a('string');
     });
+
+    it('アップロードしたファイルのURLを取得できる', (done) => {
+        ftu.uploadToGoogleDrive(null, done);
+        console.log(ftu.newUrl);
+        expect(ftu.newUrl).to.be.a('string');
+    })
 });

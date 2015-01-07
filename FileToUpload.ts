@@ -7,6 +7,7 @@ import http = require('http');
 
 export class FileToUpload {
     fileName;
+    newUrl: string;
          
     constructor(url: string, callback, done) {
         var fileName = url;
@@ -22,7 +23,9 @@ export class FileToUpload {
                 file.close(() => {  // close() is async
                     console.log('File download is done\n');
                     callback(null, this); // for async module
-                    done(); // for mocha async testing
+                    if (done != null) {
+                        done(); // for mocha async testing
+                    }
                 });
             });
             file.on('error', (err) => { // Handle errors
@@ -91,10 +94,15 @@ export class FileToUpload {
                     },
                     auth: oauth2Client
                 },
-                function (err, response) {
-                    //console.log('error:', err, 'inserted:', response);
-                    callback(null, response.id);
-                    done();
+                (err, response) => {
+                    //console.log(response);
+                    this.newUrl = response.webContentLink;
+                    this.newUrl = this.newUrl.replace('&export=download', '');
+                    callback(null, this); // for async module
+                    if (done != null) {
+                        done(); // for mocha async testing
+                    }
+                    return this.newUrl;
                 }
             );
         });

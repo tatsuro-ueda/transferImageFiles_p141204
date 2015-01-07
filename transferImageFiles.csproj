@@ -32,6 +32,7 @@
     <TypeScriptCompile Include="Scripts\typings\google-drive\googleapis-nodejs-common.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\mocha\mocha.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
+    <TypeScriptCompile Include="temp.ts" />
     <TypeScriptCompile Include="test\StringLine.test.ts" />
     <TypeScriptCompile Include="test\ParserOfExportedFile.test.ts" />
   </ItemGroup>
